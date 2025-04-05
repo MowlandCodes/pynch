@@ -1,0 +1,11 @@
+# Ignore every files and directories
+bin/
+include/
+lib/
+lib64
+*.cfg
+
+
+# Ignore all cache files
+src/__pycache__
+src/__pycache__/**
