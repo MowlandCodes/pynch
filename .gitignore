@@ -1,5 +1,5 @@
-bin
-include
-lib
-lib64
-pyvenv.cfg
+# Ignore every files and directories
+*
+
+# Except the .gitignore file
+!/.gitignore
