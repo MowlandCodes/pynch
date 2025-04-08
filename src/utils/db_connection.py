@@ -33,22 +33,21 @@ def decryption(safe, password):
     return b
 
 
-def open_db(name, password):
-    f = gzip.open(getcwd() + "/" + name + "_crypted.sql.gz", "rb")
-    safe = f.read()
-    f.close()
-    content = decryption(safe, password)
-    content = content.decode("utf-8")
-    con = sqlite3.connect(":memory:")
-    con.executescript(content)
+def open_db(name, password) -> sqlite3.Connection:
+    with gzip.open(getcwd() + "/src/db/" + name + "_encrypted.sql.gz", "rb") as f:
+        safe = f.read()
+        content = decryption(safe, password)
+        content = content.decode("utf-8")
+        con = sqlite3.connect(":memory:")
+        con.executescript(content)
+
     return con
 
 
 def save_db(con, name, password):
-    fp = gzip.open(getcwd() + "/" + name + "_crypted.sql.gz", "wb")
-    b = b""
-    for line in con.iterdump():
-        b += bytes("%s\n", "utf8") % bytes(line, "utf8")
-    b = encryption(b, password)
-    fp.write(b)
-    fp.close()
+    with gzip.open(getcwd() + "/src/db/" + name + "_encrypted.sql.gz", "wb") as fp:
+        b = b""
+        for line in con.iterdump():
+            b += bytes("%s\n", "utf8") % bytes(line, "utf8")
+        b = encryption(b, password)
+        fp.write(b)
