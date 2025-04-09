@@ -3,6 +3,7 @@ bin/
 include/
 lib/
 lib64
+build
 *.cfg
 
 # Ignore all cache files
